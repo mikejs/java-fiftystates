@@ -28,20 +28,32 @@ public class Legislator extends FiftystatesObject implements Comparable<Legislat
 		}
 	}
 
-	public static Legislator get(String id) throws FiftystatesException {
-		String url = Fiftystates.url("/legislators/" + id, "");
+	public static Legislator find(String id) throws FiftystatesException {
+		return legislatorFor(Fiftystates.url("/legislators/" + id, ""));
+	}
+
+	public static ArrayList<Legislator> allForChamber(String state, String session, String chamber) throws FiftystatesException {
+		String method = "/legislators/search/";
+		String queryString = "state=" + state + "&session=" + session + "&chamber=" + chamber;
+		return legislatorsFor(Fiftystates.url(method, queryString));
+	}
+
+	public static ArrayList<Legislator> allForState(String state, String session) throws FiftystatesException {
+		String method = "/legislators/search/";
+		String queryString = "state=" + state + "&session=" + session;
+		return legislatorsFor(Fiftystates.url(method, queryString));
+	}
+
+	private static Legislator legislatorFor(String url) throws FiftystatesException {
 		try {
-			return new Legislator(new JSONObject(Fiftystates.fetchJSON(url)));
+			JSONObject json = new JSONObject(Fiftystates.fetchJSON(url));
+			return new Legislator(json);
 		} catch (JSONException e) {
 			throw new FiftystatesException(e, "Problem parsing JSON from " + url);
 		}
 	}
 
-
-	public static ArrayList<Legislator> findChamber(String state, String session, String chamber) throws FiftystatesException {
-		String method = "/legislators/search/";
-		String queryString = "state=" + state + "&session=" + session + "&chamber=" + chamber;
-		String url = Fiftystates.url(method, queryString);
+	private static ArrayList<Legislator> legislatorsFor(String url) throws FiftystatesException {
 		try {
 			JSONArray array = new JSONArray(Fiftystates.fetchJSON(url));
 			ArrayList<Legislator> legs = new ArrayList<Legislator>();
