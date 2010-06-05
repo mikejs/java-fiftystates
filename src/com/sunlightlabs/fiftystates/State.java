@@ -36,7 +36,7 @@ public class State extends FiftystatesObject {
 		}
 	}
 	
-	public static State get(String abbreviation) throws FiftystatesException {
+	public static State find(String abbreviation) throws FiftystatesException {
 		String url = Fiftystates.url(abbreviation, "");
 		try {
 			return new State(new JSONObject(Fiftystates.fetchJSON(url)));
