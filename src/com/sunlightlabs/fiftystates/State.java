@@ -14,7 +14,7 @@ public class State extends FiftystatesObject {
 	public String upper_title, lower_title;
 	public int upper_term, lower_term;
 	
-	ArrayList<State.Session> sessions = new ArrayList<State.Session>();
+	public ArrayList<State.Session> sessions = new ArrayList<State.Session>();
 
 	public State(JSONObject json) throws JSONException {
 		super(json);
