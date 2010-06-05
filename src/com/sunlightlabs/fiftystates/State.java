@@ -45,6 +45,10 @@ public class State extends FiftystatesObject {
 		}
 	}
 	
+	public Session getActiveSession() {
+		return sessions.get(0);
+	}
+
 	public class Session {
 		public String name;
 		public int start_year, end_year;
