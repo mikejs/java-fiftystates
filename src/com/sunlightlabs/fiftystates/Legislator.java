@@ -19,7 +19,7 @@ public class Legislator extends FiftystatesObject {
 		first_name = json.getString("first_name");
 		last_name = json.getString("last_name");
 		middle_name = json.getString("middle_name");
-		id = json.getString("id");
+		id = json.getString("leg_id");
 		
 		JSONArray j_roles = json.getJSONArray("roles");
 		int length = j_roles.length();
@@ -32,6 +32,26 @@ public class Legislator extends FiftystatesObject {
 		String url = Fiftystates.url("/legislators/" + id, "");
 		try {
 			return new Legislator(new JSONObject(Fiftystates.fetchJSON(url)));
+		} catch (JSONException e) {
+			throw new FiftystatesException(e, "Problem parsing JSON from " + url);
+		}
+	}
+	
+	
+	public static ArrayList<Legislator> findChamber(String state, String session, String chamber) throws FiftystatesException {
+		String method = "/legislators/search/";
+		String queryString = "state=" + state + "&session=" + session + "&chamber=" + chamber;
+		String url = Fiftystates.url(method, queryString);
+		try {
+			JSONArray array = new JSONArray(Fiftystates.fetchJSON(url));
+			ArrayList<Legislator> legs = new ArrayList<Legislator>();
+			
+			int length = array.length();
+			for (int i = 0; i < length; i++) {
+				legs.add(new Legislator(array.getJSONObject(i)));
+			}
+
+			return legs;
 		} catch (JSONException e) {
 			throw new FiftystatesException(e, "Problem parsing JSON from " + url);
 		}
