@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Bill {
+public class Bill extends FiftystatesObject {
 	public String state;
 	public String session;
 	public String chamber;
@@ -17,6 +17,8 @@ public class Bill {
 	public ArrayList<Bill.Action> actions = new ArrayList<Bill.Action>();
 	
 	public Bill(JSONObject json) throws JSONException {
+		super(json);
+
 		state = json.getString("state");
 		session = json.getString("session");
 		chamber = json.getString("chamber");
