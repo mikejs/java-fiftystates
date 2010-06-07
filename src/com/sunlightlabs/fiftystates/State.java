@@ -14,7 +14,6 @@ public class State extends FiftystatesObject {
 	public String upper_chamber_title, lower_chamber_title;
 	public int upper_chamber_term, lower_chamber_term;
 
-	private ArrayList<String> session_names = new ArrayList<String>();
 	public ArrayList<State.Session> sessions = new ArrayList<State.Session>();
 
 	public State(JSONObject json) throws JSONException {
@@ -33,7 +32,7 @@ public class State extends FiftystatesObject {
 		JSONArray j_sessions = json.getJSONArray("sessions");
 		int length = j_sessions.length();
 		for (int i = 0; i < length; i++) {
-			session_names.add(j_sessions.getString(i));
+			sessions.add(new Session(j_sessions.getJSONObject(i)));
 		}
 	}
 
@@ -47,7 +46,7 @@ public class State extends FiftystatesObject {
 	}
 
 	public String getActiveSessionName() {
-		return session_names.get(session_names.size() - 1);
+		return sessions.get(sessions.size() - 1).name;
 	}
 
 	public class Session {
