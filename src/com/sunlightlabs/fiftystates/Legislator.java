@@ -19,7 +19,7 @@ public class Legislator extends FiftystatesObject implements Comparable<Legislat
 		first_name = json.getString("first_name");
 		last_name = json.getString("last_name");
 		middle_name = json.getString("middle_name");
-		id = json.getString("leg_id");
+		id = json.getString("id");
 
 		JSONArray j_roles = json.getJSONArray("roles");
 		int length = j_roles.length();
@@ -29,17 +29,17 @@ public class Legislator extends FiftystatesObject implements Comparable<Legislat
 	}
 
 	public static Legislator find(String id) throws FiftystatesException {
-		return legislatorFor(Fiftystates.url("/legislators/" + id, ""));
+		return legislatorFor(Fiftystates.url("legislators/" + id, ""));
 	}
 
 	public static ArrayList<Legislator> allForChamber(String state, String session, String chamber) throws FiftystatesException {
-		String method = "/legislators/search/";
+		String method = "legislators/search/";
 		String queryString = "state=" + state + "&session=" + session + "&chamber=" + chamber;
 		return legislatorsFor(Fiftystates.url(method, queryString));
 	}
 
 	public static ArrayList<Legislator> allForState(String state, String session) throws FiftystatesException {
-		String method = "/legislators/search/";
+		String method = "legislators/search/";
 		String queryString = "state=" + state + "&session=" + session;
 		return legislatorsFor(Fiftystates.url(method, queryString));
 	}
