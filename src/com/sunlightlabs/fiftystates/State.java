@@ -1,6 +1,8 @@
 package com.sunlightlabs.fiftystates;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +17,8 @@ public class State extends FiftystatesObject {
 	public int upper_chamber_term, lower_chamber_term;
 
 	public ArrayList<State.Session> sessions = new ArrayList<State.Session>();
+
+	private static Map<String, State> states = new HashMap<String, State>();
 
 	public State(JSONObject json) throws JSONException {
 		super(json);
@@ -37,9 +41,15 @@ public class State extends FiftystatesObject {
 	}
 
 	public static State find(String abbreviation) throws FiftystatesException {
+		if (states.containsKey(abbreviation)) {
+			return states.get(abbreviation);
+		}
+
 		String url = Fiftystates.url(abbreviation, "");
 		try {
-			return new State(new JSONObject(Fiftystates.fetchJSON(url)));
+			State s = new State(new JSONObject(Fiftystates.fetchJSON(url)));
+			states.put(abbreviation, s);
+			return s;
 		} catch (JSONException e) {
 			throw new FiftystatesException(e, "Problem parsing the JSON from " + url);
 		}
