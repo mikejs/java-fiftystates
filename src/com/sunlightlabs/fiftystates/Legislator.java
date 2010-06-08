@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class Legislator extends FiftystatesObject implements Comparable<Legislator> {
 	public String full_name, first_name, last_name, middle_name;
 	public String id;
+	public String photo_url;
 
 	public ArrayList<Legislator.Role> roles = new ArrayList<Legislator.Role>();
 
@@ -20,6 +21,10 @@ public class Legislator extends FiftystatesObject implements Comparable<Legislat
 		last_name = json.getString("last_name");
 		middle_name = json.getString("middle_name");
 		id = json.getString("id");
+
+		try {
+			photo_url = json.getString("photo_url");
+		} catch (JSONException e) {}
 
 		JSONArray j_roles = json.getJSONArray("roles");
 		int length = j_roles.length();
